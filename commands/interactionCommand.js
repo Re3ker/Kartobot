@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Tensify = require('tensify');
 
 module.exports.run = function(gClient,message, command, args) {
   let rMember = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
@@ -9,8 +10,16 @@ module.exports.run = function(gClient,message, command, args) {
     let {data} = response;
     let gifObj = data[Math.floor(Math.random()*data.length)];
 
+    let action_message = `Not sure what **${command}** is, but you might like it, **${rMember.user.username}**`;
+
+    try {
+      action_message = `**${rMember.user.username}** you have been ${Tensify(command).past} by **${message.member.user.username}**`
+    } catch (error) {
+      console.log(error);
+    }
+
     let rich = new Discord.RichEmbed();
-    rich.setTitle(`**${message.member.user.username}** did ${command} you, **${rMember.user.username}**`);
+    rich.setTitle(action_message);
     rich.setColor(0x793fd1);
     rich.setImage(gifObj.images.original.url);
     message.channel.send(rich);
