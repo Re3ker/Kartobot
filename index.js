@@ -1,4 +1,4 @@
-const config = require('./config');
+// const config = require('./config');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const GphApiClient = require('giphy-js-sdk-core');
