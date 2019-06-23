@@ -1,42 +1,40 @@
-// const config = require('./config');
+const config = require('./config');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const GphApiClient = require('giphy-js-sdk-core');
 const gClient = GphApiClient(process.env.GIPHY_TOKEN);
+// const gClient = GphApiClient(config.giphy_token);
+
+// Commands
+const Commands = require('./commands/Commands');
 
 let prefix = '::';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('Prefix is ::');
+  client.user.setActivity('::help');
 });
 
 client.on('message', message => {
-  let {content} = message;
-  if(!content.startsWith(prefix)) return;
+  let { content } = message;
+  if (!content.startsWith(prefix) || message.member == null || message.channel.type == "dm" || message.member.user.bot) return;
   content = content.substring(prefix.length);
-  
+
   let command = content.split(" ")[0];
   let args = content.split(" ").slice(1);
-  let rMember = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-  if(!rMember) return;
+  switch (command) {
+    case "help":
+      return Commands.helpCommand(prefix, message, command, args);
+    case "gif":
+      return Commands.gifCommand(gClient, message, args);
+    case "activities":
+      return Commands.activitiesCommand(message);
+    default:
+      return Commands.interactionCommand(gClient, message, command, args);
+  }
 
-  gClient.search('gifs', {'q': command, 'sort': 'relevant'})
-  .then((response) => {
-    let {data} = response;
-    let gifObj = data[Math.floor(Math.random()*data.length)];
-
-    let rich = new Discord.RichEmbed();
-    rich.setTitle(`**${message.member.user.username}** did ${command} you, **${rMember.user.username}**`);
-    rich.setColor(0x793fd1);
-    rich.setImage(gifObj.images.original.url);
-    message.channel.send(rich);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-  
 });
 
 client.login(process.env.DISCORD_TOKEN);
+// client.login(config.bot_token);
