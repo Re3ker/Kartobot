@@ -16,12 +16,14 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  let { content } = message;
-  if (!content.startsWith(prefix) || message.member == null || message.channel.type == "dm" || message.member.user.bot) return;
+  let { content, member, channel } = message;
+  if (!content.startsWith(prefix) || member == null || channel.type == "dm" || member.user.bot) return;
   content = content.substring(prefix.length);
 
-  let command = content.split(" ")[0];
-  let args = content.split(" ").slice(1);
+  // let command = content.split(" ")[0];
+  // let args = content.split(" ").slice(1);
+  const args = content.slice(prefix.length).split(/ +/);
+	const command = args.shift().toLowerCase();
 
   switch (command) {
 
@@ -32,6 +34,8 @@ client.on('message', message => {
       return Commands.gifCommand(gClient, message, args);
     case "activities":
       return Commands.activitiesCommand(message);   
+    case "stats":
+      return message.channel.send(`Server count: ${client.guilds.size}`);
       
     // master commands
     case "leave":{
