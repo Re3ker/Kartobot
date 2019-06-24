@@ -20,10 +20,8 @@ client.on('message', message => {
   if (!content.startsWith(prefix) || member == null || channel.type == "dm" || member.user.bot) return;
   content = content.substring(prefix.length);
 
-  // let command = content.split(" ")[0];
-  // let args = content.split(" ").slice(1);
-  const args = content.slice(prefix.length).split(/ +/);
-	const command = args.shift().toLowerCase();
+  let command = content.split(" ")[0];
+  let args = content.split(" ").slice(1);
 
   switch (command) {
 
