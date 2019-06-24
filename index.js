@@ -24,16 +24,22 @@ client.on('message', message => {
   let args = content.split(" ").slice(1);
 
   switch (command) {
+
+    // normal commands
     case "help":
       return Commands.helpCommand(prefix, message, command, args);
     case "gif":
       return Commands.gifCommand(gClient, message, args);
     case "activities":
-      return Commands.activitiesCommand(message);
-    default:
-      return Commands.interactionCommand(gClient, message, command, args);
+      return Commands.activitiesCommand(message);   
+      
+    // master commands
+    case "leave":{
+      return Commands.leaveCommand(message);
+    }
   }
-
+  
+  return Commands.interactionCommand(gClient, message, command, args);
 });
 
 client.login(process.env.DISCORD_TOKEN);
