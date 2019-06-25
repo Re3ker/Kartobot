@@ -1,4 +1,4 @@
-module.exports.run = async function(message) {
+module.exports = async function(message) {
   let all_members = message.member.guild.members;
   let all_games = new Array();
   for (let member of all_members) {
@@ -39,7 +39,7 @@ module.exports.run = async function(message) {
   if(chunks[0].length == 0) return message.channel.send(':no_entry: `No current activities/games found!`');
 
   for (let i = 0; i < chunks.length; i++) {
-    let msg = `**List of all activities/games played now by guild members** (Page ${i+1})\n`;
+    let msg = `**List of all activities/games played by guild members now** (Page ${i+1})\n`;
     msg += '```\n';
     let list = chunks[i];
     for (let game of list) {

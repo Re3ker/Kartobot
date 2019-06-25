@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = function(prefix, message, command, args) {
+module.exports = function(prefix, message, command, args) {
   
   let rich = new Discord.RichEmbed();
   rich.setTitle(`**Here is a list of commands you can use**`);

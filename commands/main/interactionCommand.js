@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const Tensify = require('tensify');
 
-module.exports.run = function(gClient,message, command, args) {
+module.exports = function(gClient,message, command, args) {
   let rMember = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if(!rMember) return message.channel.send(':no_entry: `Invalid member!`');
   gClient.search('gifs', {'q': command, 'sort': 'relevant'})

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = function(gClient,message, args) {
+module.exports = function(gClient,message, args) {
   let search_text = args.join(' ');
   gClient.search('gifs', {'q': search_text, 'sort': 'relevant'})
   .then((response) => {
