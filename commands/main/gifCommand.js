@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 
 module.exports = function(gClient,message, args) {
-  let search_text = args.join(' ');
+  let search_text = 'all';
+  if(args !== undefined){
+    search_text = args.join(' ')
+  }
   gClient.search('gifs', {'q': search_text, 'sort': 'relevant'})
   .then((response) => {
     if(response.pagination.count == 0) return message.channel.send(':no_entry: `Are you sure about that?`');
