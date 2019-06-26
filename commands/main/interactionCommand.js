@@ -6,7 +6,6 @@ module.exports = function(gClient,message, command, args) {
   if(!rMember) return message.channel.send(':no_entry: `Invalid member!`');
   gClient.search('gifs', {'q': command, 'sort': 'relevant'})
   .then((response) => {
-    console.log(response);
     if(response.data.length == 0 || response.pagination.count == 0) return message.channel.send(':no_entry: `Are you sure about that?`');;
     let {data} = response;
     let gifObj = data[Math.floor(Math.random()*data.length)];
