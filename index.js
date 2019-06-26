@@ -30,15 +30,20 @@ client.on('message', message => {
       return Commands.helpCommand(prefix, message, command, args);
     case "gif":
       return Commands.gifCommand(gClient, message, args);
+    case "joke":
+      return Commands.jokeCommand(message);
     case "activities":
       return Commands.activitiesCommand(message);   
     case "stats":
       return message.channel.send(`Server count: ${client.guilds.size}`);
-      
+    
+    // nsfw commands
+    case "kona":
+      return Commands.konaCommand(message, args);
+
     // master commands
-    case "leave":{
+    case "leave":
       return Commands.leaveCommand(message);
-    }
   }
   
   return Commands.interactionCommand(gClient, message, command, args);
