@@ -10,6 +10,7 @@ const Commands = require('./commands/Commands');
 
 let prefix = '::';
 global.playerGuilds = {};
+global.testvar = "hello world";
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
