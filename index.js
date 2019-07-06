@@ -3,14 +3,12 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const GphApiClient = require('giphy-js-sdk-core');
 const gClient = GphApiClient(process.env.GIPHY_TOKEN);
-const { exec } = require('child_process');
 
 // Commands
 const Commands = require('./commands/Commands');
 
 let prefix = '::';
 global.playerGuilds = {};
-global.testvar = "hello world";
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

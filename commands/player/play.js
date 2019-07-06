@@ -1,7 +1,6 @@
 const YTDL = require('ytdl-core');
 
 module.exports = function(message, args){
-  console.log(testvar);
   if(message.member.voiceChannel){
 
     if(!playerGuilds[message.guild.id]){
