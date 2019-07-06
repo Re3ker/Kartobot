@@ -1,12 +1,16 @@
 // normal commands
-module.exports.helpCommand = require('./main/helpCommand');
-module.exports.interactionCommand = require('./main/interactionCommand');
-module.exports.gifCommand = require('./main/gifCommand');
-module.exports.activitiesCommand = require('./main/activitiesCommand');
-module.exports.jokeCommand = require('./main/jokeCommand');
+module.exports.help = require('./main/help');
+module.exports.interaction = require('./main/interaction');
+module.exports.gif = require('./main/gif');
+module.exports.activities = require('./main/activities');
+module.exports.joke = require('./main/joke');
 
 // nsfw commands
-module.exports.konaCommand = require('./nsfw/konaCommand');
+module.exports.kona = require('./nsfw/kona');
 
 // master commands
-module.exports.leaveCommand = require('./master/leaveCommand');
+module.exports.leaveServer = require('./master/leaveserver');
+
+// player commands
+module.exports.play = require('./player/play');
+module.exports.leave = require('./player/leave');

@@ -1,21 +1,22 @@
-// const config = require('./config');
+require('dotenv').config();
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const GphApiClient = require('giphy-js-sdk-core');
 const gClient = GphApiClient(process.env.GIPHY_TOKEN);
-// const gClient = GphApiClient(config.giphy_token);
+const { exec } = require('child_process');
 
 // Commands
 const Commands = require('./commands/Commands');
 
 let prefix = '::';
+global.playerGuilds = {};
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity('::help');
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   let { content, member, channel } = message;
   if (!content.startsWith(prefix) || member == null || channel.type == "dm" || member.user.bot) return;
   content = content.substring(prefix.length);
@@ -27,27 +28,34 @@ client.on('message', message => {
 
     // normal commands
     case "help":
-      return Commands.helpCommand(prefix, message, command, args);
+      return Commands.help(prefix, message, command, args);
     case "gif":
-      return Commands.gifCommand(gClient, message, args);
+      return Commands.gif(gClient, message, args);
     case "joke":
-      return Commands.jokeCommand(message);
+      return Commands.joke(message);
     case "activities":
-      return Commands.activitiesCommand(message);   
+      return Commands.activities(message);   
     case "stats":
       return message.channel.send(`Server count: ${client.guilds.size}`);
     
     // nsfw commands
     case "kona":
-      return Commands.konaCommand(message, args);
+      return Commands.kona(message, args);
 
     // master commands
-    case "leave":
-      return Commands.leaveCommand(message);
+    case "leaveserver":
+      return Commands.leaveServer(message);
+
+    // player commands
+    case "play": {
+      return Commands.play(message, args);
+    }
+    case "leave": {
+      return Commands.leave(message);
+    }
   }
   
   return Commands.interactionCommand(gClient, message, command, args);
 });
 
 client.login(process.env.DISCORD_TOKEN);
-// client.login(config.bot_token);
