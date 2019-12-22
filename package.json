@@ -12,9 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.5.1",
-    "dotenv": "^8.0.0",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "^4.0.0",
+    
     "giphy-js-sdk-core": "^1.0.6",
     "opusscript": "0.0.6",
     "swagger-client": "^3.9.0",

@@ -1,8 +1,8 @@
-require('dotenv').config();
+const config = require('./config');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const GphApiClient = require('giphy-js-sdk-core');
-const gClient = GphApiClient(process.env.GIPHY_TOKEN);
+const gClient = GphApiClient(config.GIPHY_TOKEN);
 
 // Commands
 const Commands = require('./commands/Commands');
@@ -12,7 +12,16 @@ global.playerGuilds = {};
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('::help');
+  // client.user.setActivity('::help');
+
+  client.user.setStatus('available')
+    client.user.setPresence({
+        game: {
+            name: '::help',
+            type: "STREAMING",
+            url: "https://www.twitch.tv/kartodev"
+        }
+    });
 });
 
 client.on('message', async message => {
@@ -54,7 +63,7 @@ client.on('message', async message => {
     }
   }
   
-  return Commands.interactionCommand(gClient, message, command, args);
+  return Commands.interaction(gClient, message, command, args);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(config.DISCORD_TOKEN);
