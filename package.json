@@ -1,5 +1,5 @@
 {
-  "name": "Kartobot",
+  "name": "kartobot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,11 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.5.1",
-    
     "giphy-js-sdk-core": "^1.0.6",
-    "opusscript": "0.0.6",
     "swagger-client": "^3.9.0",
-    "tensify": "0.0.4",
-    "ytdl-core": "^0.29.2"
+    "tensify": "0.0.4"
   }
 }
