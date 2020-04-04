@@ -15,13 +15,13 @@ client.on('ready', () => {
   // client.user.setActivity('::help');
 
   client.user.setStatus('available')
-    client.user.setPresence({
-        game: {
-            name: '::help',
-            type: "STREAMING",
-            url: "https://www.twitch.tv/kartodev"
-        }
-    });
+  client.user.setPresence({
+    game: {
+      name: '::help',
+      type: "STREAMING",
+      url: "https://www.twitch.tv/kartodev"
+    }
+  });
 });
 
 client.on('message', async message => {
@@ -42,27 +42,22 @@ client.on('message', async message => {
     case "joke":
       return Commands.joke(message);
     case "activities":
-      return Commands.activities(message);   
+      return Commands.activities(message);
     case "stats":
       return message.channel.send(`Server count: ${client.guilds.size}`);
-    
-    // nsfw commands
+    case "dong":
+      return Commands.dong(message);
+
+      // nsfw commands
     case "kona":
       return Commands.kona(message, args);
 
-    // master commands
+      // master commands
     case "leaveserver":
       return Commands.leaveServer(message);
 
-    // player commands
-    case "play": {
-      return Commands.play(message, args);
-    }
-    case "leave": {
-      return Commands.leave(message);
-    }
   }
-  
+
   return Commands.interaction(gClient, message, command, args);
 });
 
