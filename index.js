@@ -7,7 +7,7 @@ const gClient = GphApiClient(config.GIPHY_TOKEN);
 // Commands
 const Commands = require('./commands/Commands');
 
-let prefix = '::';
+let prefix = '..';
 global.playerGuilds = {};
 
 client.on('ready', () => {
@@ -37,8 +37,6 @@ client.on('message', async message => {
     // normal commands
     case "help":
       return Commands.help(prefix, message, command, args);
-    case "gif":
-      return Commands.gif(gClient, message, args);
     case "joke":
       return Commands.joke(message);
     case "activities":
@@ -57,8 +55,6 @@ client.on('message', async message => {
       return Commands.leaveServer(message);
 
   }
-
-  return Commands.interaction(gClient, message, command, args);
 });
 
 client.login(config.DISCORD_TOKEN);
