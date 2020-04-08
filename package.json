@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
@@ -14,6 +15,7 @@
     "discord.js": "^11.5.1",
     "giphy-js-sdk-core": "^1.0.6",
     "swagger-client": "^3.9.0",
-    "tensify": "0.0.4"
+    "tensify": "0.0.4",
+    "uniqid": "^5.2.0"
   }
 }

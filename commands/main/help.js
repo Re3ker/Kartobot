@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 
-module.exports = function(prefix, message, command, args) {
+let HelpCommand = function(prefix, message, command, args) {
   
   let rich = new Discord.RichEmbed();
   rich.setTitle(`**Here is a list of commands you can use**`);
@@ -20,3 +20,5 @@ module.exports = function(prefix, message, command, args) {
   rich.setColor(0x793fd1);
   message.channel.send(rich);
 };
+
+export { HelpCommand };

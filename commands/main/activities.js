@@ -1,4 +1,4 @@
-module.exports = async function(message) {
+let ActivitiesCommand = async function(message) {
   let all_members = message.member.guild.members;
   let all_games = new Array();
   for (let member of all_members) {
@@ -49,3 +49,5 @@ module.exports = async function(message) {
     message.channel.send(msg);
   }
 };
+
+export { ActivitiesCommand };

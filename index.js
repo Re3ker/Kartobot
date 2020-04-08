@@ -1,27 +1,22 @@
-const config = require('./config');
-const Discord = require('discord.js');
+'use strict';
+
+import Discord from 'discord.js';
+import { BotConfig } from './config.js';
+import { HelpCommand } from './commands/main/help.js';
+import { ActivitiesCommand } from './commands/main/activities.js';
+import { JokeCommand } from './commands/main/joke.js';
+// import { DongCommand } from './commands/main/dong.js';
+import { CommandQueue } from './commands/CommandQueue.js';
+
 const client = new Discord.Client();
-const GphApiClient = require('giphy-js-sdk-core');
-const gClient = GphApiClient(config.GIPHY_TOKEN);
 
-// Commands
-const Commands = require('./commands/Commands');
-
-let prefix = '..';
-global.playerGuilds = {};
+let prefix = '::';
+const commandQueue = new CommandQueue(5);
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   // client.user.setActivity('::help');
-
-  client.user.setStatus('available')
-  client.user.setPresence({
-    game: {
-      name: '::help',
-      type: "STREAMING",
-      url: "https://www.twitch.tv/kartodev"
-    }
-  });
+  client.user.setStatus('available');
 });
 
 client.on('message', async message => {
@@ -31,30 +26,7 @@ client.on('message', async message => {
 
   let command = content.split(" ")[0];
   let args = content.split(" ").slice(1);
-
-  switch (command) {
-
-    // normal commands
-    case "help":
-      return Commands.help(prefix, message, command, args);
-    case "joke":
-      return Commands.joke(message);
-    case "activities":
-      return Commands.activities(message);
-    case "stats":
-      return message.channel.send(`Server count: ${client.guilds.size}`);
-    case "dong":
-      return Commands.dong(message);
-
-      // nsfw commands
-    case "kona":
-      return Commands.kona(message, args);
-
-      // master commands
-    case "leaveserver":
-      return Commands.leaveServer(message);
-
-  }
+  message.channel.send('got command, I\'m working fine!');
 });
 
-client.login(config.DISCORD_TOKEN);
+client.login(BotConfig.DISCORD_TOKEN);

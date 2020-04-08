@@ -1,6 +1,6 @@
-const Discord = require('discord.js');
+import Discord from 'discord.js';
 
-module.exports = async function(message) {
+let JokeCommand = async function(message) {
   let cfg = {
     headers: {
       'Accept': 'application/json',
@@ -10,3 +10,5 @@ module.exports = async function(message) {
   .then(response => response.json() )
   .then(result => message.channel.send(result.joke));
 };
+
+export { JokeCommand };

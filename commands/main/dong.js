@@ -1,7 +1,7 @@
-const Discord = require('discord.js');
-const Dongs = require('../../json/dongs.json');
+import Discord from 'discord.js';
+import Dongs from '../../json/dongs.json';
 
-module.exports = function(message) {
+let DongCommand = function(message) {
   
   let dong = Dongs.dongs[Math.floor(Math.random() * Dongs.dongs.length)];
   let rich = new Discord.RichEmbed();
@@ -14,3 +14,5 @@ module.exports = function(message) {
   rich.setColor(0x793fd1);
   message.channel.send(rich);
 };
+
+export { DongCommand };
