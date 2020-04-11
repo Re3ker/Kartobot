@@ -2,16 +2,21 @@
 import fs from 'fs';
 import Discord from 'discord.js';
 import BotConfig from './config.js';
+import { walk } from './libs/fileWalker.js';
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 global.prefix = ';';
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-  import(`./commands/${file}`).then( (command) => {
-    console.log(command.default);
+let files = walk('./commands', []);
+for (const file of files) {
+  import(`${file}`).then( (command) => {
+    if(command.default.alias !== undefined){
+      const alias_list = command.default.alias;
+      for(let alias of alias_list){
+        client.commands.set(alias, command.default);
+      }
+    }
     client.commands.set(command.default.name, command.default);
   });
 }

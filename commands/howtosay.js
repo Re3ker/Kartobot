@@ -3,6 +3,7 @@ import https from 'https';
 export default {
   name: 'howtosay',
   description: 'how to say a given word',
+  alias: ['hts'],
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Loading...").then(msg => msg);
     https.get(`https://howjsay.com/mp3/${args[0]}.mp3`, function(response) {

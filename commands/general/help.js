@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import BotConfig from './../config.js';
+import BotConfig from './../../config.js';
 export default {
   name: 'help',
   description: 'returns THIS',

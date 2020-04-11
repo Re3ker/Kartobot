@@ -1,4 +1,4 @@
-import erps from './../json/erp_texts.js';
+import erps from './../../json/erp_texts.js';
 export default {
   name: 'erp',
   description: 'hmmm',
