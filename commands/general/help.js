@@ -6,17 +6,26 @@ export default {
   category: 'general',
   async execute(message, args) {
     let rich = new Discord.MessageEmbed();
-    rich.setTitle(`**Here is a list of commands you can use**`);
-    rich.setDescription(`
-    **Main Commands:**
-    **${global.prefix}help** returns THIS.
-    **${global.prefix}ping** pong.
-    **${global.prefix}joke** random joke for you!
-    **${global.prefix}howtosay [word]** how to say a specific word.
+    rich.setTitle(`**List of commands**`);
+    let helpText = '';
+    let commandNames = [];
+    let lastCategory = '';
+    let currentCategory = '';
+    for(let item of global.commands){
+      let command = item[1];
+      if(commandNames.includes(command.name)) continue;
+      currentCategory = command.category;
+      if(currentCategory !== lastCategory){
+        helpText += `\n**${currentCategory.toUpperCase()}**\n`;
+      }
+      let args = (command.args !== undefined ? command.args.map(arg => ` [${arg}]`):'');
+      let aliases = (command.alias !== undefined ? ' Alias: ' + command.alias.map(arg => ` [${arg}]`):'');
+      helpText += `**${global.prefix}${command.name}${args}** ${command.description}.${aliases}\n`;
+      commandNames.push(command.name);
+      lastCategory = currentCategory;
+    }
 
-    **NSFW Commands:**
-    **${global.prefix}erp** hmmmmmm.
-    `);
+    rich.setDescription(helpText);
     rich.setColor(BotConfig.BOT_COLOR);
     message.channel.send(rich);
   }
