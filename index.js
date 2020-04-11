@@ -21,10 +21,21 @@ for (const file of files) {
   });
 }
 
+
+
 client.on('ready', async () => {
   client.user.setActivity(`${global.prefix}help`);
   client.user.setStatus('available');
   console.log(`Logged in as ${client.user.tag}!`);
+  global.commands = client.commands;
+  global.commands.sort((a, b) => {
+    if(a.category < b.category){
+      return -1;
+    }else if(a.category > b.category){
+      return 1;
+    }
+    return 0;
+  });
 });
 
 client.on('message', async message => {
