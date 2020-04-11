@@ -1,10 +1,11 @@
 import fetch from 'node-fetch';
+
 export default {
   name: 'joke',
   description: 'random dad joke',
   category: 'fun',
   async execute(message, args) {
-    let processMsg = await message.channel.send(":orange_circle: Loading...").then(msg => msg);
+    let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);
     let cfg = {
       headers: {
         'Accept': 'application/json',
@@ -14,7 +15,7 @@ export default {
       .then(response => response.json())
       .then(result => {
         // message.channel.send(result.joke);
-        processMsg.edit(`:green_circle: ${result.joke}`);
+        processMsg.edit(`:green_circle: ${result.joke}`).catch(error => console.error);
       });
   }
 }
