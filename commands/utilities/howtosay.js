@@ -4,7 +4,7 @@ export default {
   name: 'howtosay',
   description: 'how to say a given word',
   category: 'utilities',
-  alias: ['hts'],
+  aliases: ['hts'],
   args: ['word'],
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);

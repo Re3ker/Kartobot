@@ -13,9 +13,8 @@ global.prefix = BotConfig.PREFIX;
 let files = walk('./commands', []);
 for (const file of files) {
   import(`${file}`).then( (command) => {
-    if(command.default.alias !== undefined){
-      const alias_list = command.default.alias;
-      for(let alias of alias_list){
+    if(command.default.aliases !== undefined){
+      for(let alias of command.default.aliases){
         client.commands.set(alias, command.default);
       }
     }
@@ -60,9 +59,15 @@ client.on('message', async message => {
 		args = message.content.slice(slice).split(/\s+/);
 	}
 
-  const command = args.shift().toLowerCase();
-  
-  client.commands.get(command).execute(message, args);
+  const commandName = args.shift().toLowerCase();
+  if (!client.commands.has(commandName)) return;
+  const command = client.commands.get(commandName);
+
+  try {
+    command.execute(message, args);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 client.login(BotConfig.DISCORD_TOKEN);

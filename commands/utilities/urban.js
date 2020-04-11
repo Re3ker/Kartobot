@@ -5,7 +5,7 @@ export default {
   name: 'urban',
   description: 'urban dictionary definition',
   category: 'utilities',
-  alias: ['urb'],
+  aliases: ['urb'],
   args: ['search'],
   async execute(message, args) {
     if(!args.length) return message.channel.send('Search string missing!')

@@ -4,7 +4,7 @@ export default {
   name: 'avatar',
   description: 'get avatar from a user',
   category: 'general',
-  alias: ['pfp'],
+  aliases: ['pfp'],
   args: ['?mention'],
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);

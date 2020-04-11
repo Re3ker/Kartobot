@@ -4,7 +4,7 @@ export default {
   name: 'help',
   description: 'returns THIS',
   category: 'general',
-  alias: ['h'],
+  aliases: ['h'],
   async execute(message, args) {
     let rich = new Discord.MessageEmbed();
     rich.setTitle(`**List of commands**`);
@@ -20,7 +20,7 @@ export default {
         helpText += `\n**${currentCategory.toUpperCase()}**\n`;
       }
       let args = (command.args !== undefined ? command.args.map(arg => ` [${arg}]`):'');
-      let aliases = (command.alias !== undefined ? ' Alias: ' + command.alias.map(alias => ` ${alias}`):'');
+      let aliases = (command.aliases !== undefined ? ' Alias: ' + command.aliases.map(alias => ` ${alias}`):'');
       helpText += `**${global.prefix}${command.name}${args}** ${command.description}.${aliases}\n`;
       commandNames.push(command.name);
       lastCategory = currentCategory;

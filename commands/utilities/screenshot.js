@@ -4,7 +4,7 @@ export default {
   name: 'screenshot',
   description: 'takes screenshot of given website',
   category: 'utilities',
-  alias: ['ss'],
+  aliases: ['ss'],
   args: ['url'],
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);
