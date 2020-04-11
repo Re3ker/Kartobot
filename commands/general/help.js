@@ -3,6 +3,7 @@ import BotConfig from './../../config.js';
 export default {
   name: 'help',
   description: 'returns THIS',
+  category: 'general',
   async execute(message, args) {
     let rich = new Discord.MessageEmbed();
     rich.setTitle(`**Here is a list of commands you can use**`);

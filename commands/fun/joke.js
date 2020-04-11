@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 export default {
   name: 'joke',
   description: 'random dad joke',
+  category: 'fun',
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Loading...").then(msg => msg);
     let cfg = {
