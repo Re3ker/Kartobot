@@ -6,6 +6,7 @@ import { walk } from './libs/fileWalker.js';
 import Keyv from 'keyv';
 
 const client = new Discord.Client();
+const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 global.prefixes = new Keyv(BotConfig.DB_CONNECTION);
 global.prefix = BotConfig.PREFIX;
@@ -63,8 +64,28 @@ client.on('message', async message => {
   if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName);
 
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Discord.Collection());
+  }
+  
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 3) * 1000;
+  
+  if (timestamps.has(message.author.id)) {
+    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+      return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s).`);
+    }
+  }
+  
+
   try {
     command.execute(message, args);
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
   } catch (error) {
     console.log(error);
   }

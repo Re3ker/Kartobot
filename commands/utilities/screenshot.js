@@ -6,6 +6,7 @@ export default {
   category: 'utilities',
   aliases: ['ss'],
   args: ['url'],
+  cooldown: 10,
   async execute(message, args) {
     let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);
 
