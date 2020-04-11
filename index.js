@@ -3,10 +3,12 @@ import fs from 'fs';
 import Discord from 'discord.js';
 import BotConfig from './config.js';
 import { walk } from './libs/fileWalker.js';
+import Keyv from 'keyv';
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-global.prefix = ';';
+global.prefixes = new Keyv(BotConfig.DB_CONNECTION);
+global.prefix = BotConfig.PREFIX;
 
 let files = walk('./commands', []);
 for (const file of files) {
@@ -20,8 +22,6 @@ for (const file of files) {
     client.commands.set(command.default.name, command.default);
   });
 }
-
-
 
 client.on('ready', async () => {
   client.user.setActivity(`${global.prefix}help`);
@@ -39,13 +39,29 @@ client.on('ready', async () => {
 });
 
 client.on('message', async message => {
+  if (message.member == null || message.channel.type == "dm" || message.member.user.bot) return;
+
   let { content, member, channel } = message;
-  if (!content.startsWith(global.prefix) || member == null || channel.type == "dm" || member.user.bot) return;
-  content = content.substring(global.prefix.length);
-  let command = content.split(" ")[0];
-  let args = content.split(" ").slice(1);
+  let args;
+	if (message.guild) {
+		let prefix;
+
+		if (message.content.startsWith(global.prefix)) {
+			prefix = global.prefix;
+		} else {
+			const guildPrefix = await global.prefixes.get(message.guild.id);
+			if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
+		}
+
+		if (!prefix) return;
+		args = message.content.slice(prefix.length).split(/\s+/);
+	} else {
+		const slice = message.content.startsWith(global.prefix) ? global.prefix.length : 0;
+		args = message.content.slice(slice).split(/\s+/);
+	}
+
+  const command = args.shift().toLowerCase();
   
-  if (!client.commands.has(command)) return message.channel.send('command not found');
   client.commands.get(command).execute(message, args);
 });
 
