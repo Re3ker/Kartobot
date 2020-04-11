@@ -3,7 +3,7 @@ import https from 'https';
 export default {
   name: 'howtosay',
   description: 'how to say a given word',
-  category: '',
+  category: 'general',
   alias: ['hts'],
   args: ['word'],
   async execute(message, args) {
