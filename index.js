@@ -1,38 +1,36 @@
 'use strict';
-
+import fs from 'fs';
 import Discord from 'discord.js';
-import { BotConfig } from './config.js';
-import { HelpCommand } from './commands/main/help.js';
-import { JokeCommand } from './commands/main/joke.js';
-import { HowToSayCommand } from './commands/main/howtosay.js';
+import BotConfig from './config.js';
 
 const client = new Discord.Client();
-const prefix = ';';
+client.commands = new Discord.Collection();
+global.prefix = ';';
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(prefix+'help');
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  import(`./commands/${file}`).then( (command) => {
+    console.log(command.default);
+    client.commands.set(command.default.name, command.default);
+  });
+}
+
+client.on('ready', async () => {
+  client.user.setActivity(`${global.prefix}help`);
   client.user.setStatus('available');
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', async message => {
   let { content, member, channel } = message;
-  if (!content.startsWith(prefix) || member == null || channel.type == "dm" || member.user.bot) return;
-  content = content.substring(prefix.length);
+  if (!content.startsWith(global.prefix) || member == null || channel.type == "dm" || member.user.bot) return;
+  content = content.substring(global.prefix.length);
   let command = content.split(" ")[0];
   let args = content.split(" ").slice(1);
   
-  switch(command){
-    case "help":{
-      return HelpCommand(prefix, message);
-    }
-    case "joke":{
-      return JokeCommand(message);
-    }
-    case "howtosay":{
-      return HowToSayCommand(message, args);
-    }
-  }
+  if (!client.commands.has(command)) return message.channel.send('command not found');
+  client.commands.get(command).execute(message, args);
 });
 
 client.login(BotConfig.DISCORD_TOKEN);
