@@ -12,7 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@keyv/mysql": "^1.1.4",
     "discord.js": "^12.1.1",
+    "keyv": "^4.0.0",
+    "puppeteer": "^2.1.1",
     "uniqid": "^5.2.0"
   }
 }
