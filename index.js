@@ -14,11 +14,11 @@ global.prefix = BotConfig.PREFIX;
 let files = walk('./commands', []);
 for (const file of files) {
   import(`${file}`).then( (command) => {
-    if(command.default.aliases !== undefined){
-      for(let alias of command.default.aliases){
-        client.commands.set(alias, command.default);
-      }
-    }
+    // if(command.default.aliases !== undefined){
+    //   for(let alias of command.default.aliases){
+    //     client.commands.set(alias, command.default);
+    //   }
+    // }
     client.commands.set(command.default.name, command.default);
   });
 }
@@ -61,9 +61,8 @@ client.on('message', async message => {
 	}
 
   const commandName = args.shift().toLowerCase();
-  if (!client.commands.has(commandName)) return;
-  const command = client.commands.get(commandName);
-
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+  if (!command) return;
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
   }
