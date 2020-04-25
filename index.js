@@ -4,21 +4,28 @@ import Discord from 'discord.js';
 import BotConfig from './config.js';
 import { walk } from './libs/fileWalker.js';
 import Keyv from 'keyv';
+import KNEX from 'knex';
 
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
-global.prefixes = new Keyv(BotConfig.DB_CONNECTION);
+global.prefixes = new Keyv(BotConfig.DB_CONNECTION, { namespace: 'prefixes' });
 global.prefix = BotConfig.PREFIX;
+global.tags = new Keyv(BotConfig.DB_CONNECTION, { namespace: 'tags' });
+
+global.knex = new KNEX({
+  client: 'mysql',
+  connection: {
+    host: BotConfig.DB_HOST,
+    user: BotConfig.DB_USER,
+    password: BotConfig.DB_PASS,
+    database: BotConfig.DB_DATABASE
+  }
+});
 
 let files = walk('./commands', []);
 for (const file of files) {
   import(`${file}`).then( (command) => {
-    // if(command.default.aliases !== undefined){
-    //   for(let alias of command.default.aliases){
-    //     client.commands.set(alias, command.default);
-    //   }
-    // }
     client.commands.set(command.default.name, command.default);
   });
 }

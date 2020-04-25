@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import puppeteer from 'puppeteer';
+import BotConfig from './../../config.js';
 export default {
   name: 'screenshot',
   description: 'takes screenshot of given website',
@@ -8,20 +9,30 @@ export default {
   args: ['url'],
   cooldown: 10,
   async execute(message, args) {
+    if(!args.length) return;
     let processMsg = await message.channel.send(":orange_circle: Processing...").then(msg => msg);
-
+    let URL = args[0];
+    if (!URL.match(/^[a-zA-Z]+:\/\//)){
+      URL = 'https://' + URL;
+    }
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      defaultViewport: {width: 1920, height: 1080},
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
     });
     const page = await browser.newPage();
-    await page.goto(args[0]).catch(error => {
+    await page.goto(URL).catch(error => {
       console.log(error);
       processMsg.delete().catch(error => console.error);
     });
-    await page.screenshot().then(image => {
-      message.channel.send(new Discord.MessageAttachment(image, `screenshot.png`));
+    await page.screenshot({waitUntil: 'networkidle2', timeout: 10000}).then(image => {
+      message.channel.send(new Discord.MessageAttachment(image, `screenshot.png`))
+                      .then(msg => processMsg.delete().catch(error => console.error));
       processMsg.delete().catch(error => console.error);
+      
       browser.close();
     }).catch(error => {
       console.log(error);
