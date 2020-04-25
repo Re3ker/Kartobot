@@ -15,7 +15,10 @@
     "@keyv/mysql": "^1.1.4",
     "discord.js": "^12.1.1",
     "keyv": "^4.0.0",
-    "puppeteer": "^2.1.1",
+    "knex": "^0.20.13",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "puppeteer": "^3.0.0",
     "uniqid": "^5.2.0"
   }
 }
