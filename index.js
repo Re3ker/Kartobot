@@ -1,5 +1,4 @@
 'use strict';
-import fs from 'fs';
 import Discord from 'discord.js';
 import BotConfig from './config.js';
 import { walk } from './libs/fileWalker.js';
