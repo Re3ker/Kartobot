@@ -4,7 +4,7 @@ import BotConfig from './config.js';
 import { walk } from './libs/fileWalker.js';
 import Keyv from 'keyv';
 import KNEX from 'knex';
-
+// test change
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
