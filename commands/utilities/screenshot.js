@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import puppeteer from 'puppeteer';
-import BotConfig from './../../config.js';
 export default {
+  disabled: true,
   name: 'screenshot',
   description: 'takes screenshot of given website',
   category: 'utilities',
@@ -15,12 +15,15 @@ export default {
     if (!URL.match(/^[a-zA-Z]+:\/\//)){
       URL = 'https://' + URL;
     }
+    const ports = [9050, 9052, 9053, 9054];
+    const selected_port = ports[Math.floor(Math.random() * ports.length)];
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: {width: 1920, height: 1080},
       args: [
         '--no-sandbox',
-        '--disable-setuid-sandbox'
+        '--disable-setuid-sandbox',
+        '--proxy-server=socks5://127.0.0.1:'+selected_port
       ]
     });
     const page = await browser.newPage();

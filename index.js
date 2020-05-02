@@ -69,6 +69,7 @@ client.on('message', async message => {
   const commandName = args.shift().toLowerCase();
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return;
+  if(command.disabled) return;
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
   }

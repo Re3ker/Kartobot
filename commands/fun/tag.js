@@ -1,9 +1,10 @@
 import Discord from 'discord.js';
 import https from 'https';
 export default {
+  disabled: true,
   name: 'tag',
   description: 'just em tags',
-  category: 'utilities',
+  category: 'fun',
   args: ['tagname', '?text'],
   async execute(message, args) {
     if(!args.length) return;

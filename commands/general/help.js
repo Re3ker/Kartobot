@@ -14,7 +14,7 @@ export default {
     let currentCategory = '';
     for(let item of global.commands){
       let command = item[1];
-
+      if(command.disabled) continue;
       currentCategory = command.category;
       if(currentCategory !== lastCategory){
         helpText += `\n**${currentCategory.toUpperCase()}**\n`;
